@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import UserModel from "./user.schema.js"
+import UserModel from "./user.schema.js";
 // import "../authSocial/auth.google.js";
 
 // export const UserModel = mongoose.model("Users", userSchema);
@@ -7,12 +7,29 @@ import UserModel from "./user.schema.js"
 export default class UserRepository {
   async signUp(userData) {
     // write your code here
+    console.log("database", userData);
+    // Verify that required fields are present
+    console.log(userData.email);
+    console.log(userData.name);
+    if (!userData.email || !userData.name) {
+      throw new Error("Missing required fields: email and name are required.");
+    }
     try {
       const newUser = new UserModel(userData);
       await newUser.save();
       return newUser;
     } catch (error) {
-      throw new Error("Something went wrong with database", 500);
+      // Log the error to get more details
+      console.error("Error in signUp:", error);
+
+      // Customize the error message based on the type of error
+      if (error.name === "ValidationError") {
+        throw new Error("Validation error occurred", 400);
+      } else if (error.name === "MongoError" && error.code === 11000) {
+        throw new Error("Duplicate key error", 409);
+      } else {
+        throw new Error("Something went wrong with database", 500);
+      }
     }
   }
 

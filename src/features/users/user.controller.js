@@ -15,15 +15,16 @@ export default class UserController {
   async signUp(req, res) {
     // write your code here
     try {
-      console.log(req.body);
+      // console.log(req.body);
       const { name, email, password } = req.body;
 
-      // if (req.recaptcha.error) {
-      //   return res.status(400).json({
-      //     message: "reCAPTCHA verification failed. Please try again.",
-      //     status: false,
-      //   });
-      // }
+      if (!password) {
+        return res.status(400).json({
+          message: "Password is required",
+          status: false,
+        });
+      }
+  
 
       const saltRound = 10;
       const hashedPassword = await bcrypt.hash(password, saltRound);
@@ -33,8 +34,9 @@ export default class UserController {
         email,
         password: hashedPassword,
       };
-
+      // console.log("userData", userData);
       const newUser = await this.userRepository.signUp(userData);
+      // console.log("newUser", newUser);
       await emailServiceSignUp(userData.email, userData.name);
       return res.status(200).json({
         newUser,
@@ -42,7 +44,7 @@ export default class UserController {
         status: true,
       });
     } catch (error) {
-      console.log("Error in signUp", error);
+      // console.log("Error in signUp", error);
       return res.status(500).json({
         message: "Something went wrongs",
         status: 500,
@@ -52,8 +54,9 @@ export default class UserController {
 
   async signIn(req, res) {
     // write your code here
+    console.log(req.body);
     try {
-      const { email, password } = req.body;
+      const { email, password, isAuth } = req.body;
 
       // if (req.recaptcha.error) {
       //   return res.status(400).json({
@@ -86,11 +89,13 @@ export default class UserController {
               expiresIn: "1hr",
             }
           );
-          return res.status(200).json({
+          return res.status(200).json({data: {
             message: "User Login Successful",
             status: true,
+            userID: user._id,
+            email: user.email,
             token,
-          });
+          }});
         }
         return res.status(400).json({
           message: "Invalid user password credentials",
@@ -107,22 +112,23 @@ export default class UserController {
   }
 
   async requestResetPassword(req, res) {
+    console.log(req.body);
     try {
       const userID = req.userID;
 
       // generate otp
-      const otp = Math.floor(100000 + Math.random() * 999999);
+      const otp = Math.floor(100000 + Math.random() * 900000);
 
       const resetPasswordRequest =
         await this.userRepository.requestResetPassword(userID, otp.toString());
-      console.log("resetPasswordRequest", resetPasswordRequest);
+      // console.log("resetPasswordRequest", resetPasswordRequest);
       await OPTVerifyEmail(resetPasswordRequest.email, otp.toString());
       return res.status(200).json({
         message: "OTP send successfully",
         status: true,
       });
     } catch (error) {
-      console.log("Error while generating request reset password", error);
+      // console.log("Error while generating request reset password", error);
       return res.status(500).json({
         message: "Something went wrongs",
         status: 500,
@@ -147,19 +153,19 @@ export default class UserController {
           status: true,
         });
       }
-      next();
     } catch (error) {
-      console.log("Error while reset password", error);
+      // console.log("Error while reset password", error);
       return res.status(500).json({
         message: "Something went wrong",
         status: 500,
       });
     }
+    next();
   }
 
   async resetPassword(req, res) {
     try {
-      console.log(req.body);
+      // console.log(req.body);
       const { newPassword } = req.body;
       const userID = req.userID;
 
@@ -181,7 +187,7 @@ export default class UserController {
         status: true,
       });
     } catch (error) {
-      console.log("Error while reset password", error);
+      // console.log("Error while reset password", error);
       return res.status(500).json({
         message: "Something went wrong",
         status: 500,

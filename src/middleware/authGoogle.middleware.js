@@ -12,7 +12,7 @@ Link --> https://github.com/jaredhanson/passport-google-oauth2?tab=readme-ov-fil
 // importing the social google library
 import passport from "passport";
 import { Strategy as GoogleStrategy} from "passport-google-oauth20";
-import UserModel from "../features/users/user.schema.js"
+import authModel from "../features/authSocial/auth.schema.js";
 import emailServiceSignUp from "../services/emailService.js";
 
 // configuring my google authentication
@@ -28,12 +28,12 @@ export const googlePassportConfig = passport.use(
     async function verify(accessToken, refreshToken, profile, cb) {
       try {
         // Find or create user in the database based on Google profile
-        let user = await UserModel.findOne({ googleId: profile.id });
+        let user = await authModel.findOne({ $or: [{ googleID: profile.id }, { email: profile.emails[0].value }] });
 
         if (!user) {
           // Create a user if not found in the database
-          user = new UserModel({
-            googleId: profile.id,
+          user = new authModel({
+            googleID: profile.id,
             name: profile.displayName,
             email: profile.emails[0].value, // Assuming you want to store the email
           });
@@ -57,7 +57,7 @@ passport.serializeUser((user, done) => {
 // Deserialize user from session
 passport.deserializeUser(async (id, done) => {
   try {
-    const user = await UserModel.findById(id);
+    const user = await authModel.findById(id);
     done(null, user);
   } catch (err) {
     done(err, null);
