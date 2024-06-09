@@ -8,9 +8,13 @@ import cors from "cors"
 import "./env.js";
 import mongooseConnectToDB from "./src/config/mongooseConfig.js";
 import router from "./routes.js";
-
 const server = express();
-server.use(cors())
+
+const corsOptions = {
+  origin: 'http://localhost:5173',
+};
+
+server.use(cors(corsOptions))
 
 const port = process.env.PORT;
 const hostname = process.env.HOST_NAME;
