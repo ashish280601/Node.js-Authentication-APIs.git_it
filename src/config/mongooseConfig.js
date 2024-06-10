@@ -7,9 +7,9 @@ import "../../env.js";
 
 const HOST_URL = process.env.URL;
 
-const mongooseConnectToDB = () => {
+const mongooseConnectToDB = async() => {
     try {
-        mongoose.connect(HOST_URL);
+        await mongoose.connect(HOST_URL,{dbName: 'authentication'});
         console.log("Mongoose is connected with database");
     } catch (error) {
         console.log(error);
