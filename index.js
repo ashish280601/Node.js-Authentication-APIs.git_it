@@ -11,7 +11,7 @@ import router from "./routes.js";
 const server = express();
 
 const corsOptions = {
-  origin: 'https://node-js-authentication-apis-git-it.onrender.com',
+  origin: 'http://localhost:5173',
 };
 
 server.use(cors(corsOptions))
