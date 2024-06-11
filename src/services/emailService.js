@@ -9,8 +9,6 @@ Step to create an email
 import "../../env.js";
 import nodemailer from "nodemailer";
 
-console.log(process.env.EMAIL_USER);
-console.log(process.env.USER_PASSWORD);
 // creating a transporter
 const transport = nodemailer.createTransport({
   service: "gmail",
