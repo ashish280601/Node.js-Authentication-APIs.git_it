@@ -18,7 +18,7 @@ const corsOptions = {
 
 server.use(cors(corsOptions))
 
-const port = process.env.PORT;
+const port = process.env.PORT || 3622;
 const hostname = process.env.HOST_NAME;
 
 server.use(express.json());
@@ -42,7 +42,7 @@ server.use(router);
 
 server.listen(port, () => {
   try {
-    console.log(`Server is running at http://${hostname}:${port}`);
+    console.log(`Server is running at ${port}`);
     mongooseConnectToDB();
   } catch (error) {
     console.error("Error while connecting to database", error);
