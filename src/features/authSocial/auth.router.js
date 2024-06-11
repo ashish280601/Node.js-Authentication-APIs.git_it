@@ -29,7 +29,7 @@ authRouter.get("/logout", (req, res) => {
     }
     console.log("User logged out successfully");
     // Redirect or send a response as needed
-    res.redirect("http://localhost:5173/login"); // For example, redirect to the home page
+    res.redirect("https://node-js-authentication-git-it.onrender.com/login"); // For example, redirect to the home page
   });
 });
 
