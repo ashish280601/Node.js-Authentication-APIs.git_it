@@ -37,9 +37,13 @@ server.use(
     saveUninitialized: false,
     store: MongoStore.create({
       mongoUrl: mongoUri,
-      collectionName: 'sessions'
+      collectionName: 'sessions',
+      mongoOptions: {
+        ssl: true, // Ensure SSL is enabled
+        sslValidate: true,
+      }
     }),
-    cookie: { secure: true } // Set to true if using HTTPS
+    cookie: { secure: false } // Set to true if using HTTPS
   })
 );
 
