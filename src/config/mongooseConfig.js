@@ -7,13 +7,17 @@ import "../../env.js";
 
 const HOST_URL = process.env.URL;
 
-const mongooseConnectToDB = async() => {
-    try {
-        await mongoose.connect(HOST_URL,{dbName: 'authentication'});
-        console.log("Mongoose is connected with database");
-    } catch (error) {
-        console.log(error);
-    }
-}
+const mongooseConnectToDB = async () => {
+  try {
+    await mongoose.connect(HOST_URL, {
+      dbName: "authentication",
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log("Mongoose is connected with database");
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export default mongooseConnectToDB;
