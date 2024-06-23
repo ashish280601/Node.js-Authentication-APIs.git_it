@@ -22,8 +22,8 @@ export const googlePassportConfig = passport.use(
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       callbackURL: "https://node-js-authentication-apis.onrender.com/api/auth/google/callback",
-      scope: ["profile", "email"],
-      state: true,
+      // scope: ["profile", "email"],
+      // state: true,
     },
     async function verify(accessToken, refreshToken, profile, cb) {
       try {
