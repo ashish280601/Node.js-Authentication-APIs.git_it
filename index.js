@@ -34,7 +34,7 @@ server.use(
   session({
     secret: process.env.SECRET_KEY,
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
     store: MongoStore.create({
       mongoUrl: mongoUri,
       collectionName: 'sessions',
