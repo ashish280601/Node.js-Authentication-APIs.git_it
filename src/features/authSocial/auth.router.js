@@ -16,7 +16,7 @@ authRouter.get(
   (req, res) => {
     console.log(req.body);
     // Successful authentication, redirect to dashboard or user profile
-    res.redirect("https://node-js-authentication-git-it.onrender.com");
+    res.redirect("https://node-js-authentication-git-it.onrender.com/dashboard");
   }
 );
 
