@@ -39,7 +39,7 @@ server.use(
       mongoUrl: mongoUri,
       collectionName: 'sessions',
     }),
-    cookie: { secure: false } // Set to true if using HTTPS
+    cookie: { secure: true } // Set to true if using HTTPS
   })
 );
 
