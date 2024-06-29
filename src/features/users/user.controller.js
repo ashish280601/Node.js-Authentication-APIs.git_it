@@ -32,7 +32,6 @@ export default class UserController {
 
       // Correctly format the redirection URL with query parameters
       const redirectUrl = "https://node-js-authentication-git-it.onrender.com/dashboard";
-
       console.log("Redirecting to:", redirectUrl);
       // Redirect to frontend with the token and status as query parameters
       res.redirect(redirectUrl);

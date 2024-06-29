@@ -1,4 +1,5 @@
 import express from "express";
+import path from "path";
 import session from "express-session";
 import MongoStore from "connect-mongo";
 import passport from "passport";
@@ -55,8 +56,16 @@ server.use(
 server.use(passport.initialize());
 server.use(passport.session());
 
+// Serve static files from the React app
+server.use(express.static(path.join(__dirname, 'dist')));
+
 // Router parent middleware
 server.use(router);
+
+// The "catchall" handler: for any request that doesn't match one above, send back React's index.html file.
+server.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist/index.html'));
+});
 
 server.listen(port, async () => {
   try {
