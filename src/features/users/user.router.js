@@ -34,7 +34,7 @@ userRouter.get("/auth/google/logout",
     console.log("User logged out successfully");
     // Redirect or send a response as needed
     // res.redirect("https://node-js-authentication-git-it.onrender.com/login"); // For example, redirect to the home page
-    res.redirect("https://node-js-authentication-git-it.onrender.com/login"); // For example, redirect to the home page
+    res.redirect("https://node-js-authentication-git-it.onrender.com/"); // For example, redirect to the home page
   });
 });
 
