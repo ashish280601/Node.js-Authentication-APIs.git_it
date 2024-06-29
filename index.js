@@ -11,13 +11,22 @@ import router from "./routes.js";
 
 const server = express();
 
-// const corsOptions = {
-//   origin: ['http://localhost:5173', 'https://node-js-authentication-git-it.onrender.com'],
-//   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-//   credentials: true, // Allow credentials
-// };
+const corsOptions = {
+  origin: ['http://localhost:5173', 'https://node-js-authentication-git-it.onrender.com'],
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true, // Allow credentials
+};
 
-server.use(cors());
+// Example middleware to set CORS headers
+server.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173'); // Replace with your frontend URL
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Credentials', 'true'); // Allow cookies/sessions
+  next();
+});
+
+server.use(cors(corsOptions));
 
 const port = process.env.PORT || 3622;
 const hostname = process.env.HOST_NAME;

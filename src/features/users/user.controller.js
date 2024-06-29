@@ -12,6 +12,46 @@ export default class UserController {
     this.userRepository = new UserRepository();
   }
 
+  // Social Authentication Function
+  async googleLogin(req, res) {
+    try {
+      // Check if req.user is populated
+      if (!req.user) {
+        res.json({
+          data: {
+            message: "User not found",
+            status: false,
+          }
+        });
+      }
+
+      console.log("Authenticated user:", req.user);
+
+      // Generate a token with the user information
+      // const token = jwt.sign({ id: req.user._id, email: req.user.email }, process.env.SECRET_KEY, { expiresIn: '24h' }); // Ensure you have JWT_SECRET in your environment variables
+      const status = true;
+
+      // Correctly format the redirection URL with query parameters
+      const redirectUrl = `http://localhost:5173/?status=${status}`;
+
+      console.log("Redirecting to:", redirectUrl);
+      // Redirect to frontend with the token and status as query parameters
+      res.redirect(redirectUrl);
+
+    } catch (error) {
+      console.error("Error during Google login:", error);
+
+      res.json({
+        data: {
+          message: "Login Failed",
+          status: false,
+        }
+      });
+    }
+  }
+
+  // Manual Authentication Function  
+
   async signUp(req, res) {
     // write your code here
     try {
@@ -24,8 +64,6 @@ export default class UserController {
           status: false,
         });
       }
-  
-
       const saltRound = 10;
       const hashedPassword = await bcrypt.hash(password, saltRound);
       console.log("hashedPassword", hashedPassword);
@@ -37,7 +75,7 @@ export default class UserController {
       // console.log("userData", userData);
       const newUser = await this.userRepository.signUp(userData);
       // console.log("newUser", newUser);
-      await emailServiceSignUp(userData.email, userData.name);
+      await emailServiceSignUp(newUser.email, newUser.name);
       return res.status(200).json({
         newUser,
         message: "User created successfully",
@@ -58,12 +96,12 @@ export default class UserController {
     try {
       const { email, password, isAuth } = req.body;
 
-      // if (req.recaptcha.error) {
-      //   return res.status(400).json({
-      //     message: "reCAPTCHA verification failed. Please try again.",
-      //     status: false,
-      //   });
-      // }
+      if (req.recaptcha.error) {
+        return res.status(400).json({
+          message: "reCAPTCHA verification failed. Please try again.",
+          status: false,
+        });
+      }
 
       // finding the email user is present or not
       const user = await this.userRepository.findByEmail(email);
@@ -89,13 +127,15 @@ export default class UserController {
               expiresIn: "1hr",
             }
           );
-          return res.status(200).json({data: {
-            message: "User Login Successful",
-            status: true,
-            userID: user._id,
-            email: user.email,
-            token,
-          }});
+          return res.status(200).json({
+            data: {
+              message: "User Login Successful",
+              status: true,
+              userID: user._id,
+              email: user.email,
+              token,
+            }
+          });
         }
         return res.status(400).json({
           message: "Invalid user password credentials",
