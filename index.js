@@ -1,5 +1,6 @@
 import express from "express";
 import path from "path";
+import { fileURLToPath } from "url";
 import session from "express-session";
 import MongoStore from "connect-mongo";
 import passport from "passport";
@@ -9,6 +10,10 @@ import cors from "cors";
 import "./env.js";
 import mongooseConnectToDB from "./src/config/mongooseConfig.js";
 import router from "./routes.js";
+
+// Get __dirname in ES module
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const server = express();
 
