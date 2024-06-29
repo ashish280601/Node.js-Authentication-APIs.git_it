@@ -29,10 +29,9 @@ export default class UserController {
 
       // Generate a token with the user information
       // const token = jwt.sign({ id: req.user._id, email: req.user.email }, process.env.SECRET_KEY, { expiresIn: '24h' }); // Ensure you have JWT_SECRET in your environment variables
-      const status = true;
 
       // Correctly format the redirection URL with query parameters
-      const redirectUrl = `http://localhost:5173/?status=${status}`;
+      const redirectUrl = "https://node-js-authentication-git-it.onrender.com/dashboard";
 
       console.log("Redirecting to:", redirectUrl);
       // Redirect to frontend with the token and status as query parameters

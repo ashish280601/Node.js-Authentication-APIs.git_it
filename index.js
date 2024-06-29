@@ -12,14 +12,14 @@ import router from "./routes.js";
 const server = express();
 
 const corsOptions = {
-  origin: ['http://localhost:5173', 'https://node-js-authentication-git-it.onrender.com'],
+  origin: ['https://node-js-authentication-git-it.onrender.com', 'https://node-js-authentication-git-it.onrender.com'],
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true, // Allow credentials
 };
 
 // Example middleware to set CORS headers
 server.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173'); // Replace with your frontend URL
+  res.setHeader('Access-Control-Allow-Origin', 'https://node-js-authentication-git-it.onrender.com'); // Replace with your frontend URL
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   res.setHeader('Access-Control-Allow-Credentials', 'true'); // Allow cookies/sessions

@@ -17,7 +17,7 @@ userRouter.get(
 
 userRouter.get(
   "/auth/google/callback",
-  googlePassportConfig.authenticate("google", { failureRedirect: "http://localhost:5173/login" }),
+  googlePassportConfig.authenticate("google", { failureRedirect: "https://node-js-authentication-git-it.onrender.com/login" }),
   (req, res) => {
     userController.googleLogin(req, res);
   }
@@ -34,7 +34,7 @@ userRouter.get("/auth/google/logout",
     console.log("User logged out successfully");
     // Redirect or send a response as needed
     // res.redirect("https://node-js-authentication-git-it.onrender.com/login"); // For example, redirect to the home page
-    res.redirect("http://localhost:5173/login"); // For example, redirect to the home page
+    res.redirect("https://node-js-authentication-git-it.onrender.com/login"); // For example, redirect to the home page
   });
 });
 
